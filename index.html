@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payanvil — non-custodial batch USDT payouts from your desktop</title>
+<meta name="description" content="Send USDT (TRC-20) to hundreds of recipients in one run. Your private key never leaves your machine. No KYC, no web services. Desktop app, source-available core.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root{
+    --bg:#0F1420; --bg2:#151B2B; --card:#1A2235;
+    --text:#E8EAF0; --muted:#8B93A7; --line:#252E45;
+    --gold:#F5B62E; --gold2:#FFD666; --steel:#C7CDD8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* header */
+  header{padding:20px 0;border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--text)}
+  .brand svg{width:32px;height:32px}
+  .nav-links{display:flex;gap:22px;font-size:15px}
+  .nav-links a{color:var(--muted)}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+
+  /* hero */
+  .hero{padding:88px 0 72px;text-align:center}
+  .hero .logo{width:96px;height:96px;margin:0 auto 28px}
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.15;font-weight:800;letter-spacing:-.5px}
+  h1 .gold{color:var(--gold)}
+  .sub{max-width:640px;margin:20px auto 0;font-size:19px;color:var(--muted)}
+  .cta{margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 26px;border-radius:10px;font-weight:600;font-size:16px;
+    transition:transform .1s}
+  .btn:hover{text-decoration:none;transform:translateY(-1px)}
+  .btn-gold{background:var(--gold);color:#1a1400}
+  .btn-ghost{border:1px solid var(--line);color:var(--text)}
+  .release-note{margin-top:18px;font-size:14px;color:var(--muted)}
+
+  /* sections */
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  h2{font-size:28px;font-weight:750;margin-bottom:8px}
+  .lead{color:var(--muted);max-width:680px;margin-bottom:36px}
+  .grid{display:grid;gap:18px}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .card h3{font-size:17px;margin-bottom:8px}
+  .card p{font-size:15px;color:var(--muted)}
+  .card .em{color:var(--text)}
+
+  /* economics */
+  .econ{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:28px;
+    display:flex;gap:28px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .econ .big{font-size:34px;font-weight:800;color:var(--gold)}
+  .econ .cap{font-size:14px;color:var(--muted)}
+
+  /* security table */
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+  td:first-child{white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px}
+  .check{color:var(--gold)}
+
+  /* pricing */
+  .price-card{max-width:460px;margin:0 auto;text-align:center;background:var(--card);
+    border:1px solid var(--gold);border-radius:16px;padding:36px}
+  .price{font-size:44px;font-weight:800}
+  .price small{font-size:16px;color:var(--muted);font-weight:400}
+  .price-card ul{list-style:none;margin:22px 0;text-align:left}
+  .price-card li{padding:7px 0;font-size:15px;color:var(--muted)}
+  .price-card li b{color:var(--text);font-weight:600}
+  .price-card li::before{content:"✓  ";color:var(--gold)}
+  .trial{margin-top:14px;font-size:14px;color:var(--muted)}
+
+  /* faq */
+  details{border-bottom:1px solid var(--line);padding:16px 0}
+  summary{cursor:pointer;font-weight:600;font-size:16px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"+";color:var(--gold);margin-right:12px;font-weight:700}
+  details[open] summary::before{content:"–"}
+  details p{margin-top:10px;color:var(--muted);font-size:15px}
+
+  /* footer */
+  footer{padding:44px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
+  .foot-links{display:flex;gap:20px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="#0F1420"/><circle cx="256" cy="132" r="46" fill="#F5B62E"/><g stroke="#FFD666" stroke-width="7" stroke-linecap="round" opacity=".9"><line x1="176" y1="196" x2="152" y2="176"/><line x1="336" y1="196" x2="360" y2="176"/></g><g fill="#C7CDD8"><path d="M96 218C70 222 58 236 56 248c28-2 52 4 72 14v12h256v-56Z"/><path d="M168 274h176l-28 44H196Z"/><path d="M176 318h160l20 48H156Z"/><rect x="136" y="366" width="240" height="22" rx="6"/></g></svg>
+      Payanvil
+    </div>
+    <nav class="nav-links">
+      <a href="#security">Security</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://github.com/Payanvil/payanvil-core">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <svg class="logo" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><circle cx="256" cy="132" r="46" fill="#F5B62E"/><g stroke="#FFD666" stroke-width="7" stroke-linecap="round" opacity=".9"><line x1="176" y1="196" x2="152" y2="176"/><line x1="336" y1="196" x2="360" y2="176"/></g><g fill="#C7CDD8"><path d="M96 218C70 222 58 236 56 248c28-2 52 4 72 14v12h256v-56Z"/><path d="M168 274h176l-28 44H196Z"/><path d="M176 318h160l20 48H156Z"/><rect x="136" y="366" width="240" height="22" rx="6"/></g></svg>
+
+  <h1>Batch USDT payouts.<br><span class="gold">Your keys never leave your machine.</span></h1>
+  <p class="sub">Payanvil is a desktop app that sends USDT (TRC-20) to hundreds of recipients in one run — no web services, no KYC, no third parties holding your funds.</p>
+
+  <div class="cta">
+    <a class="btn btn-gold" href="https://t.me/payanvil">Follow the build → Telegram</a>
+    <a class="btn btn-ghost" href="https://github.com/Payanvil/payanvil-core">Read the code → GitHub</a>
+  </div>
+  <p class="release-note">v1 is feature-complete and in final hardening. Release: soon.</p>
+</div>
+
+<section id="problem">
+  <div class="wrap">
+    <h2>Why not just use a web multisender?</h2>
+    <p class="lead">Because every existing option asks you to give something up.</p>
+    <div class="grid g3">
+      <div class="card">
+        <h3>Web dApp multisenders</h3>
+        <p>Charge <span class="em">$15–50 per batch</span> — and your addresses, amounts and volumes pass through someone else's website. Every single run.</p>
+      </div>
+      <div class="card">
+        <h3>Custodial processors</h3>
+        <p>Hold <span class="em">your money</span> on their balance and require KYC once your volume matters. Your funds, their rules.</p>
+      </div>
+      <div class="card">
+        <h3>Payroll SaaS</h3>
+        <p>Built for enterprises: per-contractor monthly fees, compliance workflows, onboarding calls. Overkill when you just need to pay people.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="economics">
+  <div class="wrap">
+    <h2>The math is simple</h2>
+    <p class="lead">Web multisenders charge per batch, forever. Payanvil is a one-time purchase.</p>
+    <div class="econ">
+      <div>
+        <div class="big">4–10 batches</div>
+        <div class="cap">and Payanvil has paid for itself vs. per-batch web fees</div>
+      </div>
+      <div>
+        <div class="big">$0</div>
+        <div class="cap">per batch after that — you only pay network fees</div>
+      </div>
+      <div>
+        <div class="big">0 bytes</div>
+        <div class="cap">of your payment data sent to our servers — we don't have servers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="security">
+  <div class="wrap">
+    <h2>Don't trust us. Read the code.</h2>
+    <p class="lead">Payanvil asks for your private key — in crypto, that's a red flag. So every line that touches your key or the network is published for audit in <a href="https://github.com/Payanvil/payanvil-core">payanvil-core</a>.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>🔑 Key policy</h3>
+        <p>The key touches <span class="em">exactly two classes</span> — both open source. Kept in memory only, zero-filled after use, never written to disk, never logged. Signing happens locally via <span class="em">trident</span>, the official Tron SDK.</p>
+      </div>
+      <div class="card">
+        <h3>🗄️ Your data stays yours</h3>
+        <p>Payment queue and transfer history live in a <span class="em">locally encrypted database</span>. The encryption password is yours. No telemetry, no analytics, no "phone home".</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>Complete map of network calls</h3>
+      <p style="margin-bottom:14px">The application talks to exactly these endpoints — nothing else. Verifiable in the open code.</p>
+      <table>
+        <tr><th>Endpoint</th><th>Purpose</th></tr>
+        <tr><td>Tron node (TronGrid)</td><td>Balances, broadcast, confirmations, USDT blacklist check</td></tr>
+        <tr><td>api.binance.com</td><td>TRX→USDT rate — only in "fee from recipient" mode</td></tr>
+        <tr><td>CoinGecko</td><td>Fallback rate source</td></tr>
+        <tr><td>api.gopluslabs.io</td><td>Recipient reputation check (phishing / stolen funds / sanctions)</td></tr>
+        <tr><td>api.telegram.org</td><td>Only if you enable the Telegram intake bot — with your own token</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Built for real payout work</h2>
+    <p class="lead">For teams paying contractors, e-commerce paying suppliers, OTC desks and anyone who pays many people in USDT.</p>
+    <div class="grid g3">
+      <div class="card"><h3>📄 Excel / CSV / TXT in</h3><p>Drop a file with names, addresses, purposes and amounts — get a full batch preview before anything is sent.</p></div>
+      <div class="card"><h3>🤖 Telegram intake</h3><p>Run your own bot (your token, your privacy): people send payment requests or files, they land in your queue.</p></div>
+      <div class="card"><h3>⚖️ Fee from sender or recipient</h3><p>Per-transfer choice of who pays the network fee — recipient-pays mode deducts it from the amount at a rate fixed per batch.</p></div>
+      <div class="card"><h3>🛡️ Double recipient screening</h3><p>USDT contract blacklist check plus GoPlus reputation screening (phishing, stolen funds, sanctions) before you confirm.</p></div>
+      <div class="card"><h3>📊 Excel reports & history</h3><p>Every batch produces a color-coded report; full searchable history with export — your accounting will thank you.</p></div>
+      <div class="card"><h3>🌍 4 languages</h3><p>English, Spanish, Ukrainian, Russian — interface and reports, switchable independently.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <h2 style="text-align:center">Pricing</h2>
+    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">One-time purchase. No subscription. No per-batch fees.</p>
+    <div class="price-card">
+      <div class="price">from $149 <small>one-time</small></div>
+      <ul>
+        <li><b>Perpetual license</b> — the app is yours forever</li>
+        <li><b>1 year of updates</b> included</li>
+        <li><b>1–2 machines</b> per license</li>
+        <li><b>Testnet mode free forever</b> — full functionality on Nile, no license needed</li>
+      </ul>
+      <a class="btn btn-gold" href="https://t.me/payanvil">Get notified at release</a>
+      <p class="trial">Final pricing will be announced at launch.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <details>
+      <summary>Is this a wallet? Do you hold my funds?</summary>
+      <p>No and no. Payanvil is a sending tool: you bring your own Tron wallet's private key, the app signs transactions locally and broadcasts them to the network. We never see your key and never touch your funds — there is no server side.</p>
+    </details>
+    <details>
+      <summary>How do I know the app doesn't steal my key?</summary>
+      <p>You don't have to take our word: every class that touches the key or the network is published at <a href="https://github.com/Payanvil/payanvil-core">github.com/Payanvil/payanvil-core</a>. The key is handled by exactly two classes, zeroed after use, and signing goes through the official Tron SDK. Official builds are signed (macOS notarized, Windows code-signed).</p>
+    </details>
+    <details>
+      <summary>Why is the core "source-available" and not fully open source?</summary>
+      <p>The security-critical core is published under the Business Source License — free to read, audit, and use for research. The GUI and convenience features stay closed because that's the product we sell. We're upfront about this trade-off: the goal of the open core is auditability, and it becomes Apache 2.0 automatically in 2030.</p>
+    </details>
+    <details>
+      <summary>What exactly can I do for free?</summary>
+      <p>Everything — on the Nile testnet. The full application works without a license on testnet, forever. Sending on mainnet requires a license key. That's the whole difference.</p>
+    </details>
+    <details>
+      <summary>Which networks and tokens are supported?</summary>
+      <p>v1: USDT (TRC-20) on Tron. Multi-chain support (more networks and tokens) is planned as the next major version — v1 license holders will get an upgrade discount.</p>
+    </details>
+    <details>
+      <summary>Who is behind this?</summary>
+      <p>A solo developer, building in the open. Follow the devlog on <a href="https://t.me/payanvil">Telegram</a> and <a href="https://x.com/Payanvil">X</a>, or write to hello@payanvil.io.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="https://github.com/Payanvil/payanvil-core">GitHub</a>
+      <a href="https://t.me/payanvil">Telegram</a>
+      <a href="https://x.com/Payanvil">X</a>
+      <a href="mailto:hello@payanvil.io">hello@payanvil.io</a>
+    </div>
+    <div>Payanvil — forge your payouts. 🔨<br>© 2026 Payanvil</div>
+  </div>
+</footer>
+
+</body>
+</html>
