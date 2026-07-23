@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Input file format — Payanvil</title>
+<meta name="description" content="How to prepare your recipient list for Payanvil: column order for Excel (.xlsx), CSV and plain text files. Header names don't matter — only the order does.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root{
+    --bg:#0F1420; --bg2:#151B2B; --card:#1A2235;
+    --text:#E8EAF0; --muted:#8B93A7; --line:#252E45;
+    --gold:#F5B62E; --gold2:#FFD666; --steel:#C7CDD8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{padding:20px 0;border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--text)}
+  .brand svg{width:32px;height:32px}
+  .nav-links{display:flex;gap:22px;font-size:15px}
+  .nav-links a{color:var(--muted)}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+
+  .page{padding:56px 0 40px}
+  h1{font-size:clamp(28px,4vw,38px);line-height:1.2;font-weight:800;letter-spacing:-.5px}
+  .sub{max-width:680px;margin:16px 0 0;font-size:18px;color:var(--muted)}
+
+  section.block{padding:40px 0;border-top:1px solid var(--line)}
+  h2{font-size:24px;font-weight:750;margin-bottom:10px}
+  h3{font-size:17px;font-weight:650;margin:26px 0 10px}
+  p{color:var(--muted);max-width:760px}
+  p + p{margin-top:12px}
+  .em{color:var(--text)}
+
+  .callout{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:10px;padding:16px 18px;margin:18px 0;max-width:760px}
+  .callout p{color:var(--text)}
+
+  ol.cols{list-style:none;counter-reset:col;margin:18px 0;max-width:760px}
+  ol.cols li{counter-increment:col;padding:10px 0 10px 44px;position:relative;
+    border-bottom:1px solid var(--line);color:var(--muted)}
+  ol.cols li:last-child{border-bottom:none}
+  ol.cols li::before{content:counter(col);position:absolute;left:0;top:9px;
+    width:26px;height:26px;border-radius:7px;background:var(--card);border:1px solid var(--line);
+    color:var(--gold);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  ol.cols b{color:var(--text);font-weight:650}
+  .req{color:var(--gold);font-size:13px}
+  .opt{color:var(--muted);font-size:13px}
+
+  figure{margin:18px 0;max-width:860px}
+  figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:10px}
+  figcaption{margin-top:10px;font-size:14px;color:var(--muted)}
+
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;max-width:860px;margin:18px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;color:var(--steel)}
+
+  table{width:100%;max-width:760px;border-collapse:collapse;font-size:15px;margin-top:14px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+  td:first-child{white-space:nowrap;color:var(--text)}
+  td:last-child{color:var(--muted)}
+
+  .back{display:inline-block;margin-top:8px;font-size:15px}
+
+  footer{padding:44px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
+  .foot-links{display:flex;gap:20px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" style="color:var(--text)">
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="#0F1420"/><circle cx="256" cy="132" r="46" fill="#F5B62E"/><g stroke="#FFD666" stroke-width="7" stroke-linecap="round" opacity=".9"><line x1="176" y1="196" x2="152" y2="176"/><line x1="336" y1="196" x2="360" y2="176"/></g><g fill="#C7CDD8"><path d="M96 218C70 222 58 236 56 248c28-2 52 4 72 14v12h256v-56Z"/><path d="M168 274h176l-28 44H196Z"/><path d="M176 318h160l20 48H156Z"/><rect x="136" y="366" width="240" height="22" rx="6"/></g></svg>
+      Payanvil
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#security">Security</a>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="https://github.com/Payanvil/payanvil-core">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap page">
+  <h1>Input file format</h1>
+  <p class="sub">Payanvil reads your recipient list from a spreadsheet or a text file. Here's exactly what it expects.</p>
+</div>
+
+<section class="block">
+  <div class="wrap">
+    <h2>The rule</h2>
+
+    <div class="callout">
+      <p>What matters is the <b>order</b> of the columns — not their names. The header row can be in any language, or absent altogether.</p>
+    </div>
+
+    <p>So you don't have to rename anything or translate your existing register. Keep the columns in this order:</p>
+
+    <ol class="cols">
+      <li><b>Full name</b> <span class="opt">— optional</span></li>
+      <li><b>Recipient wallet</b> <span class="req">— required</span></li>
+      <li><b>Purpose</b> <span class="opt">— optional</span></li>
+      <li><b>Amount</b> <span class="req">— required</span></li>
+    </ol>
+
+    <p>Supported formats: <span class="em">.xlsx</span>, <span class="em">.csv</span> and <span class="em">.txt</span>.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>Excel (.xlsx)</h2>
+    <p>Four columns, first sheet. The header row is skipped automatically.</p>
+
+    <figure>
+      <img src="images/excel-en.png" alt="Example of an Excel file with four columns: full name, wallet, purpose, amount">
+      <figcaption>Columns A–D. Rows with an empty name or purpose are perfectly fine.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>CSV (.csv)</h2>
+    <p>Same four columns. The delimiter — <span class="em">;</span>, <span class="em">,</span> or a tab — is detected automatically, so a file exported from any regional version of Excel just works.</p>
+
+    <figure>
+      <img src="images/csv-en.png" alt="Example of a CSV file with four fields separated by semicolons">
+      <figcaption>Fields may be quoted (RFC 4180). Amounts accept both a dot and a comma: 150.50 or 150,50.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>Plain text (.txt)</h2>
+    <p>The simplest option when you only have addresses and amounts: one <span class="em">address amount</span> pair per line. Lines starting with <span class="em">#</span> are treated as comments.</p>
+
+    <pre><code># payouts for July
+TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t  150.50
+TJnRioDipVbRx7hz8ApdeUpygdjN9gy4a3  1000
+TWUQMSrGvefAJTZqNhkDAaf1WpnTWYH53f  75</code></pre>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>What happens to bad rows</h2>
+    <p>One typo doesn't cost you the whole file. Valid rows are accepted; every rejected row is reported with its line number, the reason and the offending value — so you know exactly what to fix.</p>
+
+    <table>
+      <tr><th>Reason</th><th>What it means</th></tr>
+      <tr><td>Invalid wallet address</td><td>Not a valid Tron (TRC-20) address — typo, wrong network, or stray characters</td></tr>
+      <tr><td>Invalid amount</td><td>The amount isn't a number</td></tr>
+      <tr><td>Amount is missing</td><td>The amount cell is empty</td></tr>
+      <tr><td>Wrong line format</td><td>.txt only: the line isn't an «address amount» pair</td></tr>
+    </table>
+
+    <p style="margin-top:18px">The same reference is built into the app — press the <span class="em">?</span> button next to the file selector, and you'll get this page in your interface language.</p>
+
+    <a class="back" href="index.html">← Back to home</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="https://github.com/Payanvil/payanvil-core">GitHub</a>
+      <a href="https://t.me/payanvil">Telegram</a>
+      <a href="https://x.com/Payanvil">X</a>
+      <a href="mailto:hello@payanvil.io">hello@payanvil.io</a>
+    </div>
+    <div>Payanvil — forge your payouts. 🔨<br>© 2026 Payanvil</div>
+  </div>
+</footer>
+
+</body>
+</html>
