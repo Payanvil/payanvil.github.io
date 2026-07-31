@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telegram intake — Payanvil</title>
+<meta name="description" content="Accept payment requests through your own Telegram bot in Payanvil: create the bot, add your token, and send payments as chat messages — one or many at a time.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  :root{
+    --bg:#0F1420; --bg2:#151B2B; --card:#1A2235;
+    --text:#E8EAF0; --muted:#8B93A7; --line:#252E45;
+    --gold:#F5B62E; --gold2:#FFD666; --steel:#C7CDD8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{padding:20px 0;border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--text)}
+  .brand svg{width:32px;height:32px}
+  .nav-links{display:flex;gap:22px;font-size:15px}
+  .nav-links a{color:var(--muted)}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+
+  .page{padding:56px 0 40px}
+  h1{font-size:clamp(28px,4vw,38px);line-height:1.2;font-weight:800;letter-spacing:-.5px}
+  .sub{max-width:680px;margin:16px 0 0;font-size:18px;color:var(--muted)}
+
+  section.block{padding:40px 0;border-top:1px solid var(--line)}
+  h2{font-size:24px;font-weight:750;margin-bottom:10px}
+  h3{font-size:17px;font-weight:650;margin:26px 0 10px}
+  p{color:var(--muted);max-width:760px}
+  p + p{margin-top:12px}
+  .em{color:var(--text)}
+
+  .callout{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:10px;padding:16px 18px;margin:18px 0;max-width:760px}
+  .callout p{color:var(--text)}
+
+  ol.cols{list-style:none;counter-reset:col;margin:18px 0;max-width:760px}
+  ol.cols li{counter-increment:col;padding:10px 0 10px 44px;position:relative;
+    border-bottom:1px solid var(--line);color:var(--muted)}
+  ol.cols li:last-child{border-bottom:none}
+  ol.cols li::before{content:counter(col);position:absolute;left:0;top:9px;
+    width:26px;height:26px;border-radius:7px;background:var(--card);border:1px solid var(--line);
+    color:var(--gold);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  ol.cols b{color:var(--text);font-weight:650}
+  .req{color:var(--gold);font-size:13px}
+  .opt{color:var(--muted);font-size:13px}
+
+  figure{margin:18px 0;max-width:860px}
+  figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:10px}
+  figcaption{margin-top:10px;font-size:14px;color:var(--muted)}
+
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    overflow-x:auto;max-width:860px;margin:18px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;color:var(--steel)}
+
+  table{width:100%;max-width:760px;border-collapse:collapse;font-size:15px;margin-top:14px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+  td:first-child{white-space:nowrap;color:var(--text)}
+  td:last-child{color:var(--muted)}
+
+  .back{display:inline-block;margin-top:8px;font-size:15px}
+
+  footer{padding:44px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
+  .foot-links{display:flex;gap:20px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" style="color:var(--text)">
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="#0F1420"/><circle cx="256" cy="132" r="46" fill="#F5B62E"/><g stroke="#FFD666" stroke-width="7" stroke-linecap="round" opacity=".9"><line x1="176" y1="196" x2="152" y2="176"/><line x1="336" y1="196" x2="360" y2="176"/></g><g fill="#C7CDD8"><path d="M96 218C70 222 58 236 56 248c28-2 52 4 72 14v12h256v-56Z"/><path d="M168 274h176l-28 44H196Z"/><path d="M176 318h160l20 48H156Z"/><rect x="136" y="366" width="240" height="22" rx="6"/></g></svg>
+      Payanvil
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#security">Security</a>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#pricing">Pricing</a>
+      <a href="https://github.com/Payanvil/payanvil-core">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap page">
+  <h1>Telegram intake</h1>
+  <p class="sub">Let people send you payment requests through your own Telegram bot. Their messages land straight in your queue — you review and send. Your token, your privacy: the bot talks only to Telegram, with your own credentials.</p>
+</div>
+
+<section class="block">
+  <div class="wrap">
+    <h2>Create your bot</h2>
+    <p>The bot is yours — Payanvil never uses a shared bot. Setting one up takes a minute:</p>
+
+    <ol class="cols">
+      <li>Open <b>@BotFather</b> in Telegram and send <span class="em">/newbot</span>.</li>
+      <li>Follow the prompts to pick a name and a username for your bot.</li>
+      <li>BotFather replies with a <b>token</b> — a long string like <span class="em">123456:ABC-DEF...</span>.</li>
+      <li>In Payanvil open <b>Settings</b>, paste the token into the <b>Token</b> field, and save.</li>
+    </ol>
+
+    <div class="callout">
+      <p>The token is stored only in your locally encrypted database and is sent to no one but Telegram. Nobody else can post to your queue.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>How to send a payment</h2>
+    <p>Write a message to the bot in this order — the address is the anchor:</p>
+
+    <ol class="cols">
+      <li><b>Full name</b> <span class="opt">— optional</span></li>
+      <li><b>Wallet address</b> <span class="req">— required</span></li>
+      <li><b>Purpose</b> <span class="opt">— optional</span></li>
+      <li><b>Amount</b> <span class="req">— required</span></li>
+    </ol>
+
+    <p>Everything before the address is the name; everything between the address and the last token is the purpose; the last token is the amount.</p>
+
+    <pre><code>Ivanov TJnRioDipVbRx7hz8ApdeUpygdjN9gy4a3 invoice 12.50</code></pre>
+
+    <p>The amount accepts both a dot and a comma: <span class="em">12.50</span> or <span class="em">12,50</span>.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>Several payments at once</h2>
+    <p>You don't have to send one message per payment. Put each payment on its own line, or separate them with a semicolon <span class="em">;</span> — both work, and you can mix them.</p>
+
+    <h3>One per line</h3>
+    <pre><code>Ivanov TJnRioDipVbRx7hz8ApdeUpygdjN9gy4a3 invoice 12,50
+Petrov TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t advance 5</code></pre>
+
+    <h3>Or in a single line, separated by ;</h3>
+    <pre><code>TJnRioDipVbRx7hz8ApdeUpygdjN9gy4a3 5; TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t 10</code></pre>
+
+    <div class="callout">
+      <p>One record must contain exactly one address. If two addresses end up in the same record, the bot asks you to separate the payments with a semicolon or a line break.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>Files work too</h2>
+    <p>Instead of typing, you can send the bot a <span class="em">.xlsx</span>, <span class="em">.csv</span> or <span class="em">.txt</span> file — the same four-column format the desktop app reads. See the <a href="format.html">input file format</a> for details.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2>What happens to bad messages</h2>
+    <p>Each record is judged on its own. Valid ones go to the queue; problem ones get a reply explaining what to fix. Plain chatter with no address is ignored, so the bot won't clutter your chat.</p>
+
+    <table>
+      <tr><th>Reply</th><th>What it means</th></tr>
+      <tr><td>Invalid address</td><td>Looks like a Tron address but fails the checksum — a typo or wrong characters</td></tr>
+      <tr><td>No amount</td><td>An address was found, but no amount after it</td></tr>
+      <tr><td>Amount not recognized</td><td>The last token isn't a number</td></tr>
+      <tr><td>Amount must be positive</td><td>The amount is zero or negative</td></tr>
+      <tr><td>Multiple addresses in one record</td><td>Separate the payments with a semicolon «;» or a line break</td></tr>
+    </table>
+
+    <p style="margin-top:18px">The same reference is built into the app — send <span class="em">/help</span> to your bot and you'll get the format and commands in your interface language.</p>
+
+    <a class="back" href="index.html">← Back to home</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="https://github.com/Payanvil/payanvil-core">GitHub</a>
+      <a href="https://t.me/payanvil">Telegram</a>
+      <a href="https://x.com/Payanvil">X</a>
+      <a href="mailto:hello@payanvil.io">hello@payanvil.io</a>
+    </div>
+    <div>Payanvil — forge your payouts. 🔨<br>© 2026 Payanvil</div>
+  </div>
+</footer>
+
+</body>
+</html>
